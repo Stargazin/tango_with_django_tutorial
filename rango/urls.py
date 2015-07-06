@@ -15,4 +15,5 @@ urlpatterns = [
     #so you get aaa-bbb-ccc of any amount (b/c of +)
     url(r'^rango/add_category/$', views.add_category, name='add_category'),
     url(r'^rango/category/(?P<category_name_slug>[\w\-]+)/$', views.category, name='category'),
+    url(r'^rango/category/(?P<category_name_slug>[\w\-]+)/add_page/$', views.add_page, name='add_page'),
 ]

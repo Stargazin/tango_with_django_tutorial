@@ -3,7 +3,6 @@
     <head>
         <title>Rango</title>
     </head>
-    <body>
         <h1>{{ category_name }}</h1>
         {% if category %}
             {% if pages %}
@@ -17,6 +16,12 @@
             {% else %}
                 <strong>There are no pages in {{ category_name }} category.</strong>
             {% endif %}
+            <br />
+            <!-- for whatever reason this just appends 'add_page' to the end of whatever
+            url you're already at... so you don't have to do something like
+            href="rango/category/{{ category_name_slug }}/add_page
+            or else you get duplicates...-->
+            <a href="add_page/">Add a page!</a>
         {% else %}
             <strong>The category, {{ category_name }}, does not exist.</strong>
         {% endif %}

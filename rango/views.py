@@ -36,7 +36,7 @@ def category(request, category_name_slug):
 
     pages = Page.objects.filter(category=category)
     context_dict['pages'] = pages
-
+    context_dict['category_name_slug'] = category_name_slug
     context_dict['category'] = category
     return render(request, 'rango/category.html', context_dict)
 
@@ -62,3 +62,34 @@ def add_category(request):
         #i think django does something to change it to post (although you do explicitly say it too up there)
         form = CategoryForm()
     return render(request, 'rango/add_category.html', {'form': form })
+
+#review the logic here... and how it connects to category
+def add_page(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
+    #so basically... going to the url you get the (else) which is GET the form
+    #when you hit submit you POST which carries out the (if)
+    #don't forget to string POST
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        #so check if everything is filled out or else print errors
+        if form.is_valid():
+            if cat:
+                #not sure what commit does
+                #remember that PageForm has title & url fields
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                #save category and views
+                page.save()
+                #go back to category view
+                return category(request, category_name_slug)
+        else:
+            print(form.errors)
+    else:
+        form = PageForm()
+
+    context_dict = {'form': form, 'category': cat}
+    return render(request, 'rango/add_page.html', context_dict)

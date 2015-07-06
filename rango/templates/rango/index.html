@@ -29,6 +29,9 @@
         {% else %}
             <strong>No pages to be listed.</strong>
         {% endif %}
+        <!-- this adds rango/add_category to whatever url are at...
+        so this will get you to a form if you are at ^$
+        but if you are at ^rango/$ you will go to rango/rango/add_category and get 404
         <a href="rango/add_category/">Add a category!</a><br />
         <a href="rango/about/">About</a>
     <!-- alt= will display text if the pic can't be loaded for whatever reason -->
