@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+    <body>
+        <h1>Add a category!</h1>
+        <!--i think action automatically looks for a view function?-->
+        <!--or maybe the id looks for category_form in forms.py?-->
+        <!--category_form isn't defined anywhere... so i think that's out of the question^,
+        i think it is action looking for add_category function in views...
+        kind of makes sense b/c for the function, the context_dict has key 'form' which we use
+        below even though it's not used as a template var
+        so i think here we intially use GET when we get to the page and then when we save
+        the method below turns it to POST and we save and go back to index...-->
+        <!--!!!!!!!!!!!!!!! jk!!! haha... so the action points to a URL... i think the idea is that
+        the template doesn't get pulled unless a request is made and the view function uses the template
+        and at that point, the form should be the correct one (although i'm not sure what happens if you have
+        multiple forms on one page, but i don't think i've seen that before... i guess you would "name" them?-->
+
+        <!--!!! see the action below? the tango tutorial said to put it but that gets you double in url...
+        so you get rango/add_cat/rango/add_cat... just leave it out and it works fine-->
+        <form id="category_form" method="post" <!--action="rango/add_category/"-->>
+            <!--cross site request forgery (required by django, may get errors when POSTing otherwise)-->
+            {% csrf_token %}
+            <!--automade list or something from HiddenInput widget?-->
+            <!--Note from tutorial:
+The need for hidden as well as visible form fields is necessitated by the fact that HTTP is a stateless protocol.
+You can’t persist state between different HTTP requests which can make certain parts of web applications
+difficult to implement. To overcome this limitation, hidden HTML form fields were created which allow web
+applications to pass important information to a client (which cannot be seen on the rendered page) in a HTML
+form, only to be sent back to the originating server when the user submits the form.-->
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                <!--builtin attr?-->
+                {{ field.error }}
+                <!--attr in forms model-->
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+            <input type="submit" name="submit" value="Create Category" />
+        </form>
+    </body>
+</html>

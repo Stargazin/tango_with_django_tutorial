@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!-- don't forget ^ and v -->
+{% load static %}
+
+<html>
+    <head>
+        <!-- stylesheets and scripts(js) are linked in head-->
+        <title>Rango</title>
+    </head>
+        {% if categories %}
+        <ul>
+            {% for category in categories %}
+            <li>
+                <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li>
+                <a href="{{ page.url }}">{{ page.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>No pages to be listed.</strong>
+        {% endif %}
+        <a href="rango/add_category/">Add a category!</a><br />
+        <a href="rango/about/">About</a>
+    <!-- alt= will display text if the pic can't be loaded for whatever reason -->
+        <img src="{% static "images/Shoreside.jpg" %}" alt='shoreside picture' />
+    </body>
+</html>
