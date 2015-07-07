@@ -2,6 +2,7 @@
 #!may have to delete db.sqlite3 and redo python manage.py syncdb after changing models
 #   admin.site.register(model)
 from django.db import models
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 class Category(models.Model):
@@ -34,3 +35,13 @@ class Page(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class UserProfile(models.Model):
+    #required to link UserProfile to User
+    user = models.OneToOneField(User)
+    #blank=True means you can leave blank
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
+    def __unicode__(self):
+        return self.user.username
