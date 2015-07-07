@@ -38,9 +38,12 @@ class Page(models.Model):
 
 class UserProfile(models.Model):
     #required to link UserProfile to User
+    #when to use OneToOneField vs ForeignKey... FK feels like OneToMany though
     user = models.OneToOneField(User)
     #blank=True means you can leave blank
     website = models.URLField(blank=True)
+    #need PIL (pip install pillow)
+    #also need bcrypt
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __unicode__(self):

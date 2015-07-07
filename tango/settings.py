@@ -116,9 +116,10 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = (
-    os.path.join(BASE_DIR, 'media')
-)
+#MEDIA_ROOT = (
+#    os.path.join(BASE_DIR, 'media'),
+#)
+MEDIA_ROOT = '/home/stargazin/tango_project/media'
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
@@ -126,3 +127,6 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
+
+print(BASE_DIR)
+print(MEDIA_ROOT)

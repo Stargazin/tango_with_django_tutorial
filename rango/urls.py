@@ -9,11 +9,12 @@ from . import views
 #don't forget commas for tuples... pls lol
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^rango/$', views.index, name='index'),
+    #url(r'^rango/$', views.index, name='index'),
     url(r'^rango/about/$', views.about, name='about'),
     #[\w\-]+... \w means any sequence of a-z, A-Z, or 0-9 and - is the dash for our slug
     #so you get aaa-bbb-ccc of any amount (b/c of +)
     url(r'^rango/add_category/$', views.add_category, name='add_category'),
     url(r'^rango/category/(?P<category_name_slug>[\w\-]+)/$', views.category, name='category'),
     url(r'^rango/category/(?P<category_name_slug>[\w\-]+)/add_page/$', views.add_page, name='add_page'),
+    url(r'^rango/register/$', views.register, name='register'),
 ]

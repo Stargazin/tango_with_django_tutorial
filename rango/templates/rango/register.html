@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rango</title>
+</head>
+<body>
+    <h1>Register with Rango!</h1>
+    {% if registered %}
+    Rango says: <strong>Thank you for registering!</strong><br />
+    <a href="">Return to homepage</a>
+    {% else %}
+    Rango says: <strong>Register here!</strong><br />
+    <!--encytype='multipart/form-data' is needed when allowing uploads. Read more here:
+    http://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean/4526286#4526286-->
+    <form id="user_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- display both forms. as_p puts as new paragraph (wraps it around)-->
+        {{ user_form.as_p }}
+        {{ user_profile_form.as_p }}
+        <!-- button for clicking submit -->
+        <input type="submit" name="submit" value="Register" />
+    </form>
+    {% endif %}
+</body>
+</html>

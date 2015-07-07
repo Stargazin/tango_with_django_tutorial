@@ -7,6 +7,7 @@
         <!-- stylesheets and scripts(js) are linked in head-->
         <title>Rango</title>
     </head>
+    <body>
         {% if categories %}
         <ul>
             {% for category in categories %}
@@ -29,6 +30,7 @@
         {% else %}
             <strong>No pages to be listed.</strong>
         {% endif %}
+        <a href="rango/register">Register!</a>
         <!-- this adds rango/add_category to whatever url are at...
         so this will get you to a form if you are at ^$
         but if you are at ^rango/$ you will go to rango/rango/add_category and get 404

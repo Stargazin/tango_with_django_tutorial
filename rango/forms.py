@@ -1,10 +1,12 @@
 #https://docs.djangoproject.com/en/1.8/ref/forms/widgets/
 #https://docs.djangoproject.com/en/1.8/ref/forms/
-#a ModelForm is a helper class that allows you to creat
+#a ModelForm is a helper class that allows you to create
 #a Django form using a pre-existing model
+#1.7+ Meta is required with atleast model= and fields= (or exclude)
 
 from django import forms
-from rango.models import Category, Page
+from django.contrib.auth.models import User
+from rango.models import Category, Page, UserProfile
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=128, help_text="Please enter a category name.")
@@ -55,3 +57,16 @@ class PageForm(forms.ModelForm):
         #and change it using some logic before 3) reassigning the value back to the cleaned_data dict
         #always end by returning cleaned_data
         return cleaned_data
+
+class UserForm(forms.ModelForm):
+    #makes it so password is hidden when being typed
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'picture')

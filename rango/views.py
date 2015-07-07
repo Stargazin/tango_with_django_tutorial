@@ -2,7 +2,7 @@
 
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from rango.forms import CategoryForm, PageForm
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from rango.models import Category, Page
 
 #don't delete this index later.. just comment out
@@ -93,3 +93,40 @@ def add_page(request, category_name_slug):
 
     context_dict = {'form': form, 'category': cat}
     return render(request, 'rango/add_page.html', context_dict)
+
+def register(request):
+    #initial registered is False... gets set to True after registering
+    registered = False
+    #i think this is how you show 2 forms? feel like there would be 2 submit buttons?
+    #actually no i think submit depends on the html and you can just combine both
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        user_profile_form = UserProfileForm(data=request.POST)
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user = user_form.save()
+            #hash the password and update
+            user.set_password(user.password)
+            user.save()
+
+            #still need to assign a user to profile, use commit=False to delay saving
+            #i think this sets profile be filled out but not 'saved'?
+            profile =  user_profile_form.save(commit=False)
+            #establish link between profile and user(hidden in profile)
+            profile.user = user
+
+            #if prof pic was provided, get from input and put it in UserProfile model
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+            registered = True
+        else:
+            print(user_form.errors)
+            print(user_profile_form.errors)
+    else:
+        user_form = UserForm()
+        user_profile_form = UserProfileForm()
+                                            #careful not to miss all (template) vars you make
+    return render(request, 'rango/register.html', {'user_form': user_form,
+                                                   'user_profile_form': user_profile_form,
+                                                   'registered': registered})

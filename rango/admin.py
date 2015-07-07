@@ -1,4 +1,5 @@
 #customizing admin page
+#remember to register all models
 #https://docs.djangoproject.com/en/1.8/ref/contrib/admin/
 
 from django.contrib import admin
