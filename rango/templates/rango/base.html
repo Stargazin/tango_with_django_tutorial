@@ -1,0 +1,32 @@
+<!--can you block within a block? but then if you change the content of outer then inner would be gone...-->
+<!--can you extend with multiple? you can use 'include'-->
+<!--http://stackoverflow.com/questions/14523683/django-multiple-template-inheritance-->
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Rango - {% block title %}How to tango with django!{% endblock %}</title>
+</head>
+<body>
+    <div>
+        {% block body_block %}
+        <!--anything you type in here will be default content-->
+        {% endblock %}
+    </div>
+    <hr />
+        {% block footer %}
+    <div>
+        <a href="{% url 'index' %}">Home!</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'restricted' %}">Restricted!</a>
+        <a href="{% url 'add_category' %}">Add category!</a>
+        <a href="{% url 'logout' %}">Logout!</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login!</a>
+        <a href="{% url 'register' %}">Register!</a>
+        {% endif %}
+        <a href="{% url 'about' %}">About!</a>
+    </div>
+        {% endblock %}
+</body>
+</html>

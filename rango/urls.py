@@ -6,7 +6,9 @@
 from django.conf.urls import url
 from . import views
 
-#don't forget commas for tuples... pls lol
+#the name='x' here lets you do {% url 'name' %} in templates
+#so if you change url mapping, you don't have to change each url
+#if you don't name, you can also use {% url rango/views/'view' %}
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     #url(r'^rango/$', views.index, name='index'),

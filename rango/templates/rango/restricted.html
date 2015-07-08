@@ -1,0 +1,12 @@
+{% extends 'rango/base.html' %}
+{% load static %}
+
+{% block title %}Restricted!{% endblock %}
+
+{% block body_block %}
+    <h1><a href="{% url 'index' %}">Go back from where you came!</a></h1>
+{% endblock %}
+
+{% block footer %}
+    <strong><h1>NOW</h1></strong>
+{% endblock %}

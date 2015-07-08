@@ -1,16 +1,16 @@
 <!--check this out for templates for easier registration/auth stuff-->
 <!--https://django-registration-redux.readthedocs.org/en/latest/-->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Rango</title>
-</head>
-<body>
-    <h1>Register with Rango!</h1>
-    {% if registered %}
+{% extends 'rango/base.html' %}
+{% load static %}
+
+{% block title %}Register!{% endblock %}
+
+{% block body_block %}
+<h1>Register with Rango!</h1>
+{% if registered %}
     Rango says: <strong>Thank you for registering!</strong><br />
     <a href="/">Return to homepage</a>
-    {% else %}
+{% else %}
     Rango says: <strong>Register here!</strong><br />
     <!--encytype='multipart/form-data' is needed when allowing uploads. Read more here:
     http://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean/4526286#4526286-->
@@ -22,6 +22,5 @@
         <!-- button for clicking submit -->
         <input type="submit" name="submit" value="Register" />
     </form>
-    {% endif %}
-</body>
-</html>
+{% endif %}
+{% endblock %}
