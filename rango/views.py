@@ -1,9 +1,13 @@
 #csrf goes in the html template
 
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+#https://docs.djangoproject.com/en/1.7/ref/request-response/#django.http.HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from rango.models import Category, Page
+
 
 #don't delete this index later.. just comment out
 #basically the dictionary has key that can be used as template variable
@@ -23,7 +27,7 @@ def index(request):
     #renders response and sends it back
     return render(request, 'rango/index.html', context_dict)
 
-def about(request):
+def about():
     return HttpResponse('ugggg')
 
 def category(request, category_name_slug):
@@ -130,3 +134,35 @@ def register(request):
     return render(request, 'rango/register.html', {'user_form': user_form,
                                                    'user_profile_form': user_profile_form,
                                                    'registered': registered})
+
+def user_login(request):
+    if request.method == 'POST':
+        #get user and pass from login form
+        #use request.POST.get('<var>') instead of request.POST('<var>') b/c the latter will raise
+        #an exception if var is empty, whereas the former will return None
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        #User object is returned if matches
+        user = authenticate(username=username, password=password)
+        if user:
+            #check if active -- make sure to not use () b/c it's not a method
+            #it is a field of user, not a method... will get 'bool' object is not callable error
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('')
+            else:
+                return HttpResponse('Your account is disabled!')
+        else:
+            return HttpResponse('Invalid login credentials!')
+    #display login form when not submitting -- HTTP GET instead of POST
+    else:
+        return render(request, 'rango/login.html', {})
+
+@login_required
+def restricted(request):
+    return HttpResponse('logged in so can sees this!')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')

@@ -8,6 +8,11 @@
         <title>Rango</title>
     </head>
     <body>
+        {% if user.is_authenticated %}
+            <h1>Rango says... Hello {{ user.username }}</h1>
+        {% else %}
+            <h1>Rango says... Hello world!</h1>
+        {% endif %}
         {% if categories %}
         <ul>
             {% for category in categories %}
@@ -30,7 +35,15 @@
         {% else %}
             <strong>No pages to be listed.</strong>
         {% endif %}
-        <a href="rango/register">Register!</a>
+        {% if user.is_authenticated %}
+            <a href="rango/add_category">Add a category!</a><br />
+            <a href="rango/restricted">Secret!</a><br />
+            <a href="rango/logout">Logout!</a><br />
+        {% else %}
+            <a href="rango/login">Login!</a><br />
+            <a href="rango/register">Register!</a><br />
+        {% endif %}
+        <a href="rango/about">About!</a>
         <!-- this adds rango/add_category to whatever url are at...
         so this will get you to a form if you are at ^$
         but if you are at ^rango/$ you will go to rango/rango/add_category and get 404

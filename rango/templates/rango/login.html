@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rango</title>
+</head>
+<body>
+    <!-- oh cool! i did this myself :^) -->
+    {% if user.is_authenticated %}
+    <h1>You are logged in!!</h1>
+    <!-- can't leave as href=""; need href="/"... maybe a space instead of / would work too? -->
+    <!-- althouhg it did work as href="" for register.html for whatever reason -->
+    <!-- i think it's cause of the different checks-->
+    <a href="/">Return to Index</a>
+    {% else %}
+    <h1>Login to Rango!</h1>
+    <form id="login_form" method="post" action="/rango/login/">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value="" size="50" />
+        <br />
+        Password: <input type="password" name="password" value="" size="50" />
+        <br />
+        <input type="submit" type="submit" />
+    </form>
+    {% endif %}
+</body>
+</html>
