@@ -19,12 +19,27 @@ from django.contrib.staticfiles.views import serve
 #settings gives access to variables inside settings.py
 from django.conf import settings
 from django.conf.urls.static import static
-
+from registration.backends.simple.views import RegistrationView
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, request, user):
+        return '/rango/'
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('rango.urls')),
-    url(r'^rango/$', include('rango.urls')),
+    url(r'^rango/', include('rango.urls')),
+    #simple gives these machinery
+    #registration -> /accounts/register/
+    #registration complete -> /accounts/register/complete
+    #login -> /accounts/login/
+    #logout -> /accounts/logout/
+    #password change -> /password/change/
+    #password reset -> /password/reset/
+    #change simple to default to get activation (emails, etc... 2 step registration)
+    #need templates for all of these views: https://github.com/macdhuibh/django-registration-templates
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    #url(r'^password/', include('registration.backends.simple.urls')),
 ]
 #] + static(settings.MEDIA_URL,
 #           document_root = settings.MEDIA_ROOT)

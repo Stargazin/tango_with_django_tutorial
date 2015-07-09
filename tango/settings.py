@@ -35,13 +35,30 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    #can be used to ('straightforwardly') store session information (sessionid) in model/db
+    #specifically using django.contrib.sessions.models.Session model
+    #https://docs.djangoproject.com/en/1.7/topics/http/sessions/#using-cached-sessions
+    #^above gives a 'very fast' way of storing sessionids... maybe give it a try later?
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rango'
+    'rango',
+    #http://django-registration-redux.readthedocs.org/en/latest/quickstart.html#quickstart
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
+    #creates sessionid cookie tokens
+    #https://docs.djangoproject.com/en/1.7/topics/http/sessions/
+    #If client-side cookies are the right approach for you then work through the following steps:
+#You must first perform a check to see if the cookie you want exists. This can be done by checking the request parameter. The request.COOKIES.has_key('<cookie_name>') function returns a boolean value indicating whether a cookie <cookie_name> exists on the client?s computer or not.
+#If the cookie exists, you can then retrieve its value - again via the request parameter - with request.COOKIES[]. The COOKIES attribute is exposed as a dictionary, so pass the name of the cookie you wish to retrieve as a string between the square brackets. Remember, cookies are all returned as strings, regardless of what they contain. You must therefore be prepared to cast to the correct type.
+#If the cookie doesn?t exist, or you wish to update the cookie, pass the value you wish to save to the response you generate. response.set_cookie('<cookie_name>', value) is the function you call, where two parameters are supplied: the name of the cookie, and the value you wish to set it to.
+#If you need more secure cookies, then use session based cookies:
+#Make sure that MIDDLEWARE_CLASSES in settings.py contains ?django.contrib.sessions.middleware.SessionMiddleware?.
+#Configure your session backend SESSION_ENGINE. See the official Django Documentation on Sessions for the various backend configurations.
+#Check to see if the cookie exists via requests.sessions.get()
+#Update or set the cookie via the session dictionary, requests.session['<cookie_name>']
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,6 +68,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+#in seconds (below is 2 wks); more on cookies below
+#http://eli.thegreenplace.net/2011/06/24/django-sessions-part-i-cookies/
+#user python manage.py clearsessions to clear db that stores (session only?) cookies
+#clear daily as a cron job
+SESSION_COOKIE_AGE = 1209600
 
 ROOT_URLCONF = 'tango.urls'
 
@@ -128,7 +152,12 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
 
-LOGIN_URL = '/rango/login/'
+#registration-redux stuff
+REGISTRATION_OPEN = True
+#ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+LOGIN_REDIRECT_URL = '/rango/'
+LOGIN_URL = '/accounts/login/'
 
 print(BASE_DIR)
 print(MEDIA_ROOT)
