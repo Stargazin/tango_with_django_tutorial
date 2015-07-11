@@ -58,11 +58,7 @@ def index(request):
     return response
 
 def about(request):
-    visits = request.session.get('visits')
-    if visits:
-        return HttpResponse('You have visited the site {0} times!'.format(visits))
-    else:
-        return HttpResponse('Welcome to the site!')
+    return render(request, 'rango/about.html', {})
 
 def category(request, category_name_slug):
     #remember that the vars you define here will be for the context_dict

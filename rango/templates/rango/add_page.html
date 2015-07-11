@@ -4,7 +4,9 @@
 {% block title %}Add page!{% endblock %}
 
 {% block body_block %}
-<h1>Add a page to {{ category }}!</h1>
+<div class="page-header">
+    <h1>Add a page to {{ category }}!</h1>
+</div>
 <form id="page_form" method="POST">
     {% csrf_token %}
     {% for field in form.hidden_fields %}
